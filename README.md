@@ -1,44 +1,54 @@
-# Uniswap-v2-puzzles by [RareSkills](https://www.rareskills.io)
+# **🔗 Uniswap V2 Puzzles by [RareSkills](https://www.rareskills.io)**  
 
-## How to play
+## **📝 Overview**  
+This repository contains Solidity challenges designed to **deepen your understanding of Uniswap V2 mechanics**. These puzzles cover liquidity pools, swaps, TWAP calculations, token rebasing, and attack vectors in DeFi.  
 
-- Git clone the Repo
+## **🚀 How to Play**  
+1. **Clone the repository** 📂  
+   ```shell
+   git clone <repo-url>
+   cd uniswap-v2-puzzles
+   ```
+2. **Install dependencies** ⚙️  
+   ```shell
+   forge install
+   ```
+3. **Start hacking** 🏴‍☠️  
 
-- Install dependencies
-    ```shell
-    $ forge install
-    ```
-- Start hacking.
-
-## Run test
-
-The test forks mainnet so as to interact with contracts on a real network and also give a more realistic experience. Go to [Alchemy](https://alchemy.com) or [infura](https:/infura.io) 
-to get `your_mainnet_rpc_url`.
+## **✅ Running Tests**  
+The tests **fork mainnet** to provide a realistic environment by interacting with real Uniswap V2 contracts. Get a Mainnet RPC URL from [Alchemy](https://alchemy.com) or [Infura](https://infura.io).  
+Run a specific test:  
 ```shell
-$ forge test --fork-url <your_mainnet_rpc_url> --match-path test/<test_filename> 
+forge test --fork-url <your_mainnet_rpc_url> --match-path test/<test_filename>
 ```
 
-#### Test Your RPC with HelloWorld Puzzle
-
-Run the following command:
+### **🔍 Test Your RPC with HelloWorld Puzzle**  
+Run the following command:  
 ```shell
-$ forge test --fork-url <your_mainnet_rpc_url> --match-path test/HelloWorld.t.sol
+forge test --fork-url <your_mainnet_rpc_url> --match-path test/HelloWorld.t.sol
 ```
-If the test passes, RPC is working, else, it might have exceeded its rate limit or typo in the url.
+If the test passes, your RPC is working. If it fails, your RPC may have **exceeded rate limits** or **contains a typo**.  
 
-## Suggested order for the puzzles
+## **📚 Suggested Puzzle Order**  
+- [HelloWorld](src/HelloWorld.sol) - 🔰 Intro to Uniswap pools  
+- [AddLiquid](src/AddLiquid.sol) - 🏦 Manually adding liquidity  
+- [AddLiquidWithRouter](src/AddLiquidWithRouter.sol) - 🔄 Adding liquidity via router  
+- [BurnLiquid](src/BurnLiquid.sol) - ♻️ Removing liquidity manually  
+- [BurnLiquidWithRouter](src/BurnLiquidWithRouter.sol) - 🔥 Removing liquidity via router  
+- [SimpleSwap](src/SimpleSwap.sol) - 🔀 Basic token swap  
+- [SimpleSwapWithRouter](src/SimpleSwapWithRouter.sol) - 🔄 Swap using router  
+- [SandwichSwap](src/SandwichSwap.sol) - 🥪 Simulating MEV sandwich attacks  
+- [MyMevBot](src/MyMevBot.sol) - 🤖 Building an MEV bot  
+- [SyncAndSkim](src/SyncAndSkim.sol) - 🔍 Pool balance manipulation  
+- [ExactSwap](src/ExactSwap.sol) - 🎯 Exact amount swap  
+- [ExactSwapWithRouter](src/ExactSwapWithRouter.sol) - 🔄 Exact amount swap via router  
+- [MultiHop](src/MultiHop.sol) - 🚀 Multi-hop swaps  
+- [Twap](src/Twap.sol) - ⏳ Time-Weighted Average Price  
 
-- [HelloWorld](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/HelloWorld.sol)
-- [AddLiquid](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/AddLiquid.sol)
-- [AddLiquidWithRouter](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/AddLiquidWithRouter.sol)
-- [BurnLiquid](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/BurnLiquid.sol)
-- [BurnLiquidWithRouter](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/BurnLiquidWithRouter.sol)
-- [SimpleSwap](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/SimpleSwap.sol)
-- [SimpleSwapWithRouter](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/SimpleSwapWithRouter.sol)
-- [SandwichSwap](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/SandwichSwap.sol)
-- [MyMevBot](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/MyMevBot.sol)
-- [SyncAndSkim](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/SyncAndSkim.sol)
-- [ExactSwap](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/ExactSwap.sol)
-- [ExactSwapWithRouter](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/ExactSwapWithRouter.sol)
-- [MultiHop](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/MultiHop.sol)
-- [Twap](https://github.com/RareSkills/uniswap-v2-puzzles/blob/main/src/Twap.sol)
+## **🎯 Who Should Try This?**  
+- 🏗️ Solidity developers  
+- 🔍 Smart contract auditors  
+- 🛡️ DeFi security researchers  
+
+## **📜 License**  
+MIT License.
