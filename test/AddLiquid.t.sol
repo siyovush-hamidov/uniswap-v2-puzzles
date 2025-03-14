@@ -4,6 +4,9 @@ pragma solidity ^0.8.13;
 import {Test, console2} from "forge-std/Test.sol";
 import {AddLiquid} from "../src/AddLiquid.sol";
 import "../src/interfaces/IUniswapV2Pair.sol";
+import "../src/interfaces/IERC20.sol";
+import "../lib/forge-std/src/console.sol";
+
 
 contract AddLiquidTest is Test {
     AddLiquid public addLiquid;
@@ -24,7 +27,7 @@ contract AddLiquidTest is Test {
     function test_AddLiquidity() public {
         (uint256 reserve0, uint256 reserve1,) = IUniswapV2Pair(pool).getReserves();
         uint256 _totalSupply = IUniswapV2Pair(pool).totalSupply();
-
+        // require(IUniswapV2Pair(pool).totalSupply() == 0, "TOTAL SUPPLY IS POSITIVE");
         vm.prank(address(0xb0b));
         addLiquid.addLiquidity(usdc, weth, pool, reserve0, reserve1);
 
@@ -35,7 +38,7 @@ contract AddLiquidTest is Test {
         uint256 bar = (foo * reserve1) / reserve0;
 
         uint256 expectBal = min((foo * _totalSupply) / (reserve0), (bar * _totalSupply) / (reserve1));
-
+        console.log("puzzleBal:", puzzleBal);
         require(puzzleBal > 0, "No LP tokens minted");
         assertEq(puzzleBal, expectBal, "Incorrect LP tokens received");
     }

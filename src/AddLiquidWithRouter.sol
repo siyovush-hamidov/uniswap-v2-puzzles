@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "./interfaces/IUniswapV2Pair.sol";
+import "./interfaces/IERC20.sol";
 
 contract AddLiquidWithRouter {
     /**
@@ -20,6 +21,19 @@ contract AddLiquidWithRouter {
 
     function addLiquidityWithRouter(address usdcAddress, uint256 deadline) public {
         // your code start here
+        IERC20(usdcAddress).approve(router, type(uint256).max);
+        uint256 usdcBalance = IERC20(usdcAddress).balanceOf(address(this));
+        bytes memory data = abi.encodeWithSignature(
+            "addLiquidityETH(address,uint256,uint256,uint256,address,uint256)",
+            usdcAddress,    // token
+            usdcBalance,        // amountTokenDesired
+            usdcBalance * 50 / 100,             // amountTokenMin
+            1 ether * 50 / 100,          // amountETHMin
+            msg.sender, // to
+            deadline       // deadline
+        );
+        (bool sent, bytes memory response) = router.call{value: 1 ether}(data);
+        require(sent, "Call to router failed");
     }
 
     receive() external payable {}

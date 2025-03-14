@@ -8,7 +8,7 @@ contract HelloWorldTest is Test {
     HelloWorld public helloWorld;
 
     function setUp() public {
-        helloWorld = new HelloWorld();
+        helloWorld = new HelloWorld(); 
     }
 
     function test_SayHelloWorld() public {

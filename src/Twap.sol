@@ -38,11 +38,32 @@ contract Twap {
     //**       ONE HOUR TWAP START      **//
     function first1HourSnapShot() public {
         // your code here
+        (
+            uint112 reserve0,
+            uint112 reserve1,
+            uint32 blockTimestampLast
+        ) = IUniswapV2Pair(pool).getReserves();
+        first1HourSnapShot_TimeStamp = blockTimestampLast;
+        first1HourSnapShot_Price0Cumulative = IUniswapV2Pair(pool)
+            .price0CumulativeLast();
     }
 
     function second1HourSnapShot() public returns (uint224 oneHourTwap) {
         // your code here
+        (
+            uint112 reserve0,
+            uint112 reserve1,
+            uint32 blockTimestampLast
+        ) = IUniswapV2Pair(pool).getReserves();
+        second1HourSnapShot_TimeStamp = blockTimestampLast;
+        second1HourSnapShot_Price0Cumulative = IUniswapV2Pair(pool)
+            .price0CumulativeLast();
 
+        oneHourTwap = uint224(
+            (second1HourSnapShot_Price0Cumulative -
+                first1HourSnapShot_Price0Cumulative) /
+                (second1HourSnapShot_TimeStamp - first1HourSnapShot_TimeStamp)
+        );
         return oneHourTwap;
     }
     //**       ONE HOUR TWAP END      **//
@@ -50,10 +71,33 @@ contract Twap {
     //**       ONE DAY TWAP START      **//
     function first1DaySnapShot() public {
         // your code here
+        (
+            uint112 reserve0,
+            uint112 reserve1,
+            uint32 blockTimestampLast
+        ) = IUniswapV2Pair(pool).getReserves();
+
+        first1DaySnapShot_TimeStamp = blockTimestampLast;
+        first1DaySnapShot_Price0Cumulative = IUniswapV2Pair(pool)
+            .price0CumulativeLast();
     }
 
     function second1DaySnapShot() public returns (uint224 oneDayTwap) {
         // your code here
+        (
+            uint112 reserve0,
+            uint112 reserve1,
+            uint32 blockTimestampLast
+        ) = IUniswapV2Pair(pool).getReserves();
+        second1DaySnapShot_TimeStamp = blockTimestampLast;
+        second1DaySnapShot_Price0Cumulative = IUniswapV2Pair(pool)
+            .price0CumulativeLast();
+
+        oneDayTwap = uint224(
+            (second1DaySnapShot_Price0Cumulative -
+                first1DaySnapShot_Price0Cumulative) /
+                (second1DaySnapShot_TimeStamp - first1DaySnapShot_TimeStamp)
+        );
 
         return (oneDayTwap);
     }

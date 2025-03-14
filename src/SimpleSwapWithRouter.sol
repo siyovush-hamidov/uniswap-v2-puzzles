@@ -17,10 +17,29 @@ contract SimpleSwapWithRouter {
         router = _router;
     }
 
-    function performSwapWithRouter(address[] calldata path, uint256 deadline) public {
+    function performSwapWithRouter(
+        address[] calldata path,
+        uint256 deadline
+    ) public {
         // your code start here
-    }
+        bytes memory data = abi.encodeWithSignature(
+            "swapExactETHForTokens(uint256,address[],address,uint256)",
+            0,
+            path,
+            address(this),
+            deadline
+        );
+        (bool success, ) = router.call{value: 1 ether}(data);
+        require(success, "Call to router failed");
 
+        // НО ОКАЗЫВАЕТСЯ, МОЖНО И ТАК
+        // IUniswapV2Router(router).swapExactETHForTokens{value: 1 ether}(
+        //     0, // amountOutMin
+        //     path,
+        //     address(this),
+        //     deadline
+        // );
+    }
     receive() external payable {}
 }
 
@@ -31,8 +50,10 @@ interface IUniswapV2Router {
      *     to: recipient address to receive the liquidity tokens.
      *     deadline: timestamp after which the transaction will revert.
      */
-    function swapExactETHForTokens(uint256 amountOutMin, address[] calldata path, address to, uint256 deadline)
-        external
-        payable
-        returns (uint256[] memory amounts);
+    function swapExactETHForTokens(
+        uint256 amountOutMin,
+        address[] calldata path,
+        address to,
+        uint256 deadline
+    ) external payable returns (uint256[] memory amounts);
 }

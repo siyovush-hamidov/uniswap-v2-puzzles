@@ -22,7 +22,35 @@ contract ExactSwap {
          *     to: recipient address to receive the USDC tokens.
          *     data: leave it empty.
          */
-
+        // IERC20(weth).
+        IERC20(weth).approve(pool, type(uint256).max);
+        IERC20(usdc).approve(pool, type(uint256).max);
+        IUniswapV2Pair(pool).swap(
+            1337e6,
+            0,
+            address(this),
+            abi.encode("notEmpty")
+        );
+        // IUniswapV2Pair(pool).
         // your code start here
+    }
+
+    function uniswapV2Call(
+        address sender,
+        uint amount0Out,
+        uint amount1Out,
+        bytes calldata data
+    ) public {
+        (uint112 reserve0, uint112 reserve1, ) = IUniswapV2Pair(
+            0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc
+        ).getReserves();
+        uint256 numerator = reserve1 * amount0Out * 1000;
+        uint256 denominator = (reserve0 - amount0Out) * 997;
+        uint256 amountIn = (numerator / denominator) + 1;
+        
+        IERC20(0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2).transfer(
+            address(0xB4e16d0168e52d35CaCD2c6185b44281Ec28C9Dc),
+            amountIn
+        );
     }
 }
